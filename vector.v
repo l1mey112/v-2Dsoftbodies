@@ -4,9 +4,17 @@ import term.ui as tui
 fn rint(v f64)int{return int(math.round(v))}
 fn lerp(a f64, b f64, t f64)f64{return a + (b-a) * t}
 fn mapf(old_min f64, old_max f64, new_min f64, new_max f64, value f64)f64{
+	if value < old_min{return new_min}
+	if value > old_max{return new_max}
+
 	return new_min + ((new_max-new_min)/(old_max-old_min)) * (math.clamp(value, old_min, old_max))
 }
 
+// smooth curve interpolation
+fn smoothstep(a f64, b f64, t f64)f64{
+	x := math.clamp(t, a, b)
+	return x * x * (3 - 2 * x)
+}
 
 fn lerp_colour(fac f64, c1 tui.Color, c2 tui.Color)tui.Color{
 	n := if fac > 1.0 {1.0} else if fac < 0.0 {0.0} else {fac}
@@ -51,6 +59,13 @@ fn (vec1 IVec) screen(a voidptr) IVec {
 	return ((vec1 * ivec(1,-1)) + app.zero) * ivec(2,1)
 }
 
+// create a function that reverses the above screen function
+fn (vec1 Vec) screen_inv(a voidptr) Vec {
+	app := &App(a)
+	//return ((vec1 * vec(2,-1)) - app.zero.float()) * vec(1,1)
+	return svec(-5)
+}
+
 //? conversion
 fn (vec1 Vec) int()IVec{return IVec{rint(vec1.x+0.5),rint(vec1.y+0.5)}}
 fn (vec1 IVec) float()Vec{return Vec{f64(vec1.x),f64(vec1.y)}}
@@ -79,6 +94,9 @@ fn (vec1 Vec) normalize() Vec {length := 1.0/vec1.length() return Vec{vec1.x*len
 fn (vec1 Vec) lerp(vec2 Vec, interp f64) Vec { return Vec{ lerp(vec1.x, vec2.x, interp), lerp(vec1.y, vec2.y, interp)}}
 fn (vec1 Vec) dot(vec2 Vec) f64 {return vec1.x*vec2.x + vec1.y*vec2.y}
 fn (vec1 Vec) cross(vec2 Vec) f64 {return vec1.x*vec2.y - vec1.y*vec2.x}
+
+// reflect
+fn (vec1 Vec) reflect(vec2 Vec) Vec {return vec1 - vec2 * svec(2*vec1.dot(vec2))}
 
 // get midpoint between two vectors
 fn (vec1 Vec) midpoint(vec2 Vec) Vec {return Vec{(vec1.x+vec2.x)/2,(vec1.y+vec2.y)/2}}

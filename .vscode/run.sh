@@ -1,2 +1,2 @@
 clear
-v -enable-globals run .
+v -g -enable-globals run .
