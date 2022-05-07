@@ -64,8 +64,6 @@ struct SoftBodyCircle {
 		springs[]  Spring
 }
 
-// https://www.youtube.com/watch?v=kyQP4t_wOGI
-
 // bresenham's line algorithm taken from term.ui but modified to work with Vec + board
 fn draw_line(vec1 Vec, vec2 Vec, a voidptr) {
 	mut ctx := &App(a)
@@ -247,8 +245,6 @@ struct Line {
 } 
 //? infinitely long line
 
-// https://forum.unity.com/threads/how-do-i-find-the-closest-point-on-a-line.340058/
-// has good grapic
 fn (l Line) get_closest(vec Vec)Vec {
 	v := vec - l.position
 	d := v.dot(l.direction)

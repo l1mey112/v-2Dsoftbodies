@@ -91,12 +91,12 @@ fn (mut c SoftBodyCircle) simulate(a voidptr) {
 	//? combining these to calculate force from pressure
 	//* Force = Area * nRT / Volume
 
-	
+	full_area := c.area()
 	mut app := &App(a)
 	for i, mut s in c.springs {
 		//? calculate force
 		length := s.a.position.distance(s.b.position) //? "area" (we live in 2d land not 3d)
-		force_float := (length * nrt) / c.area()
+		force_float := (length * nrt) / full_area
 
 		//? calculate normal vector
 		mut nrm_vec := (s.a.position - s.b.position).normalize()

@@ -14,29 +14,6 @@ mut:
 	mouse IVec
 }
 
-//todo draw vector from center of screen to mouse position capped a little more than the cirle radius
-//todo basic scanline rendering for circles?
-//todo for that you would need to hijack bresenham's algorithm and use it to fill in scanlines
-
-//todo procedural circles
-//todo 		get radius and amount of test points
-//todo 		then move initial test point to raidus and then move it to the next point
-
-//todo conceptualise a 2D camera,
-//todo		2D cameras have a view bounds and a position
-//todo		use a function to convert world space to 2D camera space
-//todo		i already have app.zero and other conversions
-
-//todo use procedural circles as a sort of LOD?
-//todo 		replacing simulated circles for others
-
-//todo create own line drawing algorithm for complete control
-//? /home/liaml/tools/v/vlib/term/ui/ui.v outlined here
-
-//todo for calculating spring normals
-//todo 		get direction then rotate 90 degrees
-//todo 		check cross product to circle and if facing inwards then flip the normal
-
 fn event(e &tui.Event, x voidptr) {
 	mut app := &App(x)
 
@@ -79,11 +56,6 @@ __global (
 		direction: Vec{1,0},
 		facing: false
 	}
-	line2 = Line{
-		position: Vec{-20,-25},
-		direction: Vec{0,-1},
-		facing: true
-	}
 )
 
 const nrt = 1 * 8.3144621 * 293.15
@@ -117,20 +89,16 @@ fn frame(a voidptr) {
 
 	softbody.integrate()
 	softbody.line_collide(line)
-	softbody.line_collide(line2)
 
 	softbody.render(a)
 	//softbody.render_points(a)
-
-	//line.render(a)
-	
 
 	app.tui.set_bg_color(r: 255, g: 0, b: 200)
 	
 	// put_pixel(line.get_closest(point), a)
 	app.tui.reset_bg_color()
 
-	softbody.info_message(":)",a)
+	//softbody.info_message(":)",a)
 
 	app.tui.flush()
 }
@@ -154,8 +122,6 @@ fn main(){
 		frame_rate: fps
 		use_alternate_buffer: true
 	)
-
-	line.direction = Vec{1,0.6}.normalize()
 
 	softbody = ProceduralCircle{
 		radius: 10,
