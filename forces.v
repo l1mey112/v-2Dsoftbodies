@@ -1,7 +1,7 @@
 import term
 
 const (
-	gravity = Vec{0,-40.8}
+	gravity = Vec{0,-80.8}
 	delta = 1.0/fps
 )
 
@@ -115,8 +115,8 @@ fn (mut c SoftBodyCircle) simulate(a voidptr) {
 			nrm_vec * svec(-1)
 		} //? make SURE the normal vector points outwards, if not flip it!
 
-		app.tui.set_bg_color(r: 120, g: 0, b: 120)
-		draw_line(midpoint,midpoint + final_nrm * svec(5),a)
+		//app.tui.set_bg_color(r: 120, g: 0, b: 120)
+		//draw_line(midpoint,midpoint + final_nrm * svec(5),a)
 
 		//app.tui.set_bg_color(r: 10, g: 10, b: 40)
 		//draw_line(opposite_midpoint,midpoint,a)

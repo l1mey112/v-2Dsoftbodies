@@ -79,6 +79,11 @@ __global (
 		direction: Vec{1,0},
 		facing: false
 	}
+	line2 = Line{
+		position: Vec{-20,-25},
+		direction: Vec{0,-1},
+		facing: true
+	}
 )
 
 const nrt = 1 * 8.3144621 * 293.15
@@ -112,6 +117,7 @@ fn frame(a voidptr) {
 
 	softbody.integrate()
 	softbody.line_collide(line)
+	softbody.line_collide(line2)
 
 	softbody.render(a)
 	//softbody.render_points(a)
@@ -149,13 +155,13 @@ fn main(){
 		use_alternate_buffer: true
 	)
 
-	//line.direction = Vec{1,0.2}.normalize()
+	line.direction = Vec{1,0.6}.normalize()
 
 	softbody = ProceduralCircle{
 		radius: 10,
 		position: vec(0,20),
 		samples: 20
-	}.make_real( 2, 200.0, 1.0 )
+	}.make_real( 5, 200.0, 1.0 )
 	
 	//* mass, stiffness, damping
 
